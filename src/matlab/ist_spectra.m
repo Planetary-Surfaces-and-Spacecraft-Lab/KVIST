@@ -92,94 +92,61 @@ Estar(end) = Ezero;
 fEstar(end) = fval;
 
 % Step II: The Auxilary Spectrum
+mu = zeros(N-1,1);
+fmu = zeros(N-1,1);
 
-% Which method do I use to compute mu?
-
-
-%if N-1 < length(M12signflips) % Lost an Estar, use alt method
-%     N = length(M12signflips)+1;
-%     mu = zeros(length(M12signflips),1);
-%     fmu = zeros(length(M12signflips),1);
-%     for i = 1:length(M12signflips)
-%         [Ezero,fval,exitflag,output] = fzero(g,M12signfliplocs(i),opt);
-%         if exitflag < 0
-%             error('Something wrong at mu step');
-%         end
-%         mu(i) = Ezero;
-%         fmu(i) = fval;
-%     end
-%else % Number of Estar is correct, use Estar to set bisection method
-    mu = zeros(N-1,1);
-    fmu = zeros(N-1,1);
-    skipnext = 0;
-
-    for i = 2:N
-        if skipnext
-            skipnext = 0;
-            continue
+midx = 1;
+for i = 2:N
+    leftbnd = Estar(i-1);
+    rghtbnd = Estar(i);
+    if (i==2)
+        leftbnd = Emin;
+    end
+    
+    signdiff = sign(g(leftbnd)) ~= sign(g(rghtbnd));
+    if (signdiff) 
+        [Ezero,fval,~,~] = BetterIntervalSearch_M12(xz, u, leftbnd, rghtbnd, tolX);
+        mu(midx) = Ezero;
+        fmu(midx) = fval;
+        midx = midx + 1;
+    else % Possibly more than one zero crossing
+        guess = find_guess(g, leftbnd, rghtbnd);
+        if sign(g(leftbnd)) == sign(g(guess))
+            fprintf('something wrong here, bad guess\n');
         end
 
-        % One zero crossing
-         %fprintf('i=%i\ng(Estar(i-1)) = %g\ng(Estar(i)) = %g\n', ...
-         %        i, sign(g(Estar(i-1))), sign(g(Estar(i))));
-        leftbnd = Estar(i-1);
-        rghtbnd = Estar(i);
+        if guess == -1
+            continue; % Skip this loop - zero will probably be picked up on the next one
+        else
+            [Ezero,fval,~,~] = BetterIntervalSearch_M12(xz, u, leftbnd, guess, tolX);
+        end
 
-       if sign(g(leftbnd)) ~= sign(g(rghtbnd))
-          %   fprintf('Signs not same\n');
-           %  fprintf('g(%g) = %g\ng(%g) = %g\n', Estar(i-1), g(Estar(i-1)), ...
-            %                                     Estar(i), g(Estar(i)));
-            [Ezero,fval,~,~] = BetterIntervalSearch_M12(xz, u, leftbnd, rghtbnd, tolX);
-            %[Ezero,fval,exitflag,output] = fzero(g,[Estar(i-1) Estar(i)],opt);
-            mu(i-1) = Ezero;
-            fmu(i-1) = fval;
-        else % Possibly more than one zero crossing
-            %fprintf('Signs same at i = %i\n', i);
-            guess = find_guess(g, leftbnd, rghtbnd);
-            if sign(g(leftbnd)) == sign(g(guess))
-                fprintf('something wrong here, bad guess\n');
+        if exitflag < 0
+            error('could not find zero with double crossing\n');
+        end
+
+        if Ezero > Estar(i) || Ezero < leftbnd % outside interval
+            continue
+        else
+            mu(midx) = Ezero;
+            fmu(midx) = fval;
+            midx = midx + 1;
+
+            % Double crossing
+            if sign(g(guess)) == sign(g(rghtbnd))
+                fprintf('something wrong here\n');
             end
-
             if guess == -1
-                [Ezero,fval,exitflag,output] = fzero(g,leftbnd);
+                continue;
             else
-                [Ezero,fval,exitflag,output] = fzero(g,[leftbnd guess]);
+                [Ezero,fval,~,~] = BetterIntervalSearch_M12(xz, u, guess, rghtbnd, tolX);
             end
-
-            if exitflag < 0
-                error('could not find zero with double crossing\n');
-            end
-
-            if Ezero > Estar(i) || Ezero < leftbnd % outside interval
-                continue
-            else
-                mu(i-1) = Ezero;
-                fmu(i-1) = fval;
-
-                % Double crossing
-                if sign(g(guess)) == sign(g(rghtbnd))
-                    fprintf('something wrong here\n');
-                end
-                if guess == -1
-                    [Ezero,fval,exitflag,output] = fzero(g,rghtbnd);
-                else
-                    [Ezero,fval,exitflag,output] = fzero(g,[guess rghtbnd],opt);
-                end
-                mu(i) = Ezero;
-                fmu(i) = fval;
-                skipnext = 1;
-            end
+            mu(midx) = Ezero;
+            fmu(midx) = fval;
+            midx = midx + 1;
         end
     end
-%end
-
-
-% Last one
-% Eguess = (Estar(end)+Ez(end))/2;
-% [Ezero,fval,exitflag,output] = fzero(g,Eguess);
-% mu(end) = Ezero;
-% [M,~] = mmat_mex(mu(end), xz, u);
-% fmu(end) = M(1,2);
+end
 
 % Step III: The Main Spectrum
 Ej = zeros(2*N-1,1);
