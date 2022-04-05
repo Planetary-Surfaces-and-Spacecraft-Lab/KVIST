@@ -1,2 +1,6 @@
 bin/
 lib/
+.DS_Store
+*.eps
+*.png
+*.jpg
