@@ -122,36 +122,49 @@ fEstar(end) = fval;
         % One zero crossing
          %fprintf('i=%i\ng(Estar(i-1)) = %g\ng(Estar(i)) = %g\n', ...
          %        i, sign(g(Estar(i-1))), sign(g(Estar(i))));
-         if sign(g(Estar(i-1)-eps(Estar(i-1)))) ~= sign(g(Estar(i)))
+        leftbnd = Estar(i-1);
+        rghtbnd = Estar(i);
+
+       if sign(g(leftbnd)) ~= sign(g(rghtbnd))
           %   fprintf('Signs not same\n');
            %  fprintf('g(%g) = %g\ng(%g) = %g\n', Estar(i-1), g(Estar(i-1)), ...
             %                                     Estar(i), g(Estar(i)));
-            [Ezero,fval,~,~] = BetterIntervalSearch_M12(xz, u, Estar(i-1), Estar(i), tolX);
+            [Ezero,fval,~,~] = BetterIntervalSearch_M12(xz, u, leftbnd, rghtbnd, tolX);
             %[Ezero,fval,exitflag,output] = fzero(g,[Estar(i-1) Estar(i)],opt);
             mu(i-1) = Ezero;
             fmu(i-1) = fval;
         else % Possibly more than one zero crossing
             %fprintf('Signs same at i = %i\n', i);
-            guess = find_guess(g, Estar(i-1), Estar(i));
-            if sign(g(Estar(i-1))) == sign(g(guess)) || guess==-1
+            guess = find_guess(g, leftbnd, rghtbnd);
+            if sign(g(leftbnd)) == sign(g(guess))
                 fprintf('something wrong here, bad guess\n');
             end
-            [Ezero,fval,exitflag,output] = fzero(g,[Estar(i-1) guess]);
+
+            if guess == -1
+                [Ezero,fval,exitflag,output] = fzero(g,leftbnd);
+            else
+                [Ezero,fval,exitflag,output] = fzero(g,[leftbnd guess]);
+            end
+
             if exitflag < 0
                 error('could not find zero with double crossing\n');
             end
 
-            if Ezero > Estar(i) || Ezero < Estar(i-1) % outside interval
+            if Ezero > Estar(i) || Ezero < leftbnd % outside interval
                 continue
             else
                 mu(i-1) = Ezero;
                 fmu(i-1) = fval;
 
                 % Double crossing
-                if sign(g(guess)) == sign(g(Estar(i)))
+                if sign(g(guess)) == sign(g(rghtbnd))
                     fprintf('something wrong here\n');
                 end
-                [Ezero,fval,exitflag,output] = fzero(g,[guess Estar(i)],opt);
+                if guess == -1
+                    [Ezero,fval,exitflag,output] = fzero(g,rghtbnd);
+                else
+                    [Ezero,fval,exitflag,output] = fzero(g,[guess rghtbnd],opt);
+                end
                 mu(i) = Ezero;
                 fmu(i) = fval;
                 skipnext = 1;
