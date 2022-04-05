@@ -122,7 +122,7 @@ fEstar(end) = fval;
         % One zero crossing
          %fprintf('i=%i\ng(Estar(i-1)) = %g\ng(Estar(i)) = %g\n', ...
          %        i, sign(g(Estar(i-1))), sign(g(Estar(i))));
-         if sign(g(Estar(i-1))) ~= sign(g(Estar(i)))
+         if sign(g(Estar(i-1)-eps(Estar(i-1)))) ~= sign(g(Estar(i)))
           %   fprintf('Signs not same\n');
            %  fprintf('g(%g) = %g\ng(%g) = %g\n', Estar(i-1), g(Estar(i-1)), ...
             %                                     Estar(i), g(Estar(i)));
@@ -132,8 +132,11 @@ fEstar(end) = fval;
             fmu(i-1) = fval;
         else % Possibly more than one zero crossing
             %fprintf('Signs same at i = %i\n', i);
-            guess = Estar(i-1)+(Estar(i)-Estar(i-1))/4;
-            [Ezero,fval,exitflag,output] = fzero(g,guess,opt);
+            guess = find_guess(g, Estar(i-1), Estar(i));
+            if sign(g(Estar(i-1))) == sign(g(guess)) || guess==-1
+                fprintf('something wrong here, bad guess\n');
+            end
+            [Ezero,fval,exitflag,output] = fzero(g,[Estar(i-1) guess]);
             if exitflag < 0
                 error('could not find zero with double crossing\n');
             end
@@ -144,9 +147,11 @@ fEstar(end) = fval;
                 mu(i-1) = Ezero;
                 fmu(i-1) = fval;
 
-                fprintf('Double crossing\n');
-                guess = Estar(i-1)+3*(Estar(i)-Estar(i-1))/4;
-                [Ezero,fval,exitflag,output] = fzero(g,guess,opt);
+                % Double crossing
+                if sign(g(guess)) == sign(g(Estar(i)))
+                    fprintf('something wrong here\n');
+                end
+                [Ezero,fval,exitflag,output] = fzero(g,[guess Estar(i)],opt);
                 mu(i) = Ezero;
                 fmu(i) = fval;
                 skipnext = 1;
