@@ -80,11 +80,11 @@ E1 = Ej{1}(1);
 
 %% Ploting
 
-figure;imagesc(xz_sim,tz,real(U)');xlim([-5 130])
+figure;imagesc(tz,xz_sim,real(U));ylim([-5 130])
 set(gcf,'units','inches','position',[0,0,6,4]);
 set(gca, 'FontName', 'Helvetica');
-xlabel('x');
-ylabel('t');
+xlabel('t');
+ylabel('x');
 colorbar();
 colormap(flipud(hot))
 grid off;
