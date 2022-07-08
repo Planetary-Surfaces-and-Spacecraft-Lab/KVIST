@@ -13,14 +13,21 @@ Emax = 3;
 Emin = -1.5;
 numE = 3000;
 
-tz_PIST_idx = [45 65 90];
+tz_PIST_idx = [35 65 90];
+%tz_PIST_idx = [65]; % was 66 when I was talking to Christine
 tz_PIST = tz(tz_PIST_idx);
-alpha = 1.0051;
+alpha = 1.051;
 beta = 0.4925;
 lambda = alpha/(6*beta);
-xclip_min_idx = 4105;
-xclip_max_idx = 4605;
+%xclip_min_idx = 4055; % both solitons (moving)
+%xclip_min_idx = 4235; % second soliton clipped out (moving)
+%xclip_min_idx = 3955; % both solitons (debris not moving)
+%xclip_min_idx = 4099; % second soliton clipped out (debris not moving)
+xclip_min_idx = 4005;
+xclip_max_idx = 4505;
 signal = real(U(xclip_min_idx:xclip_max_idx,:))';
+% signal = [signal; flip(signal)];
+% signal = signal(floor(length(signal)/4):floor(3*length(signal)/4)-1,:)';
 xz_original = xz;
 xz = xz(xclip_min_idx:xclip_max_idx);
 
@@ -71,6 +78,7 @@ figure;
 imagesc(tz,xz,signal');
 set(gcf,'units','inches','position',[0,0,8,4]);
 set(gca, 'FontName', 'Helvetica')
+set(gca, 'YDir','normal')
 grid off;
 box on;
 ax = gca;

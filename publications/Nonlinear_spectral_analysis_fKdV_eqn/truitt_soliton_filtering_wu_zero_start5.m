@@ -95,6 +95,7 @@ figure;
 imagesc(tz,xz_original,real(U));
 set(gcf,'units','inches','position',[0,0,8,4]);
 set(gca, 'FontName', 'Helvetica')
+set(gca, 'YDir','normal')
 grid off;
 box on;
 ax = gca;
@@ -103,8 +104,8 @@ colorbar();
 colormap(flipud(hot))
 xlabel('t');
 ylabel('x');
-%yline(xz(1),'r','linewidth',2);
-%yline(xz(end),'r','linewidth',2);
+% yline(xz(1),'r','linewidth',2);
+% yline(xz(end),'r','linewidth',2);
 lwl = 3;
 xline(tz(20),'b','linewidth',lwl);
 xline(tz(55),'b','linewidth',lwl);
@@ -149,9 +150,11 @@ ylabel('Amplitude of Mode')
 xlabel('k')
 hold on;
 yyaxis right;
-plot(k_ist(1,:), nine_digcnt(m{1}),'^');
+plot(k_ist(1,:), nine_digcnt(m{1}),'^', ...
+      'Color',[0.8500 0.3250 0.0980]);
 hold on;
-yline(3,'--','LineWidth',2);
+yline(3,'--','LineWidth',2, ...
+      'Color',[0.8500 0.3250 0.0980]);
 ylabel('\sigma (Modulus)');
 xlim([0 2.0]);
 legend('Amplitude', '\sigma (Modulus)');

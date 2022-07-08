@@ -127,7 +127,8 @@ hold on;
 yyaxis right;
 plot(k_ist(1,:), nine_digcnt(m{1}),'^');
 hold on;
-yline(3,'--','LineWidth',2);
+yline(3,'--','LineWidth',2, ...
+      'Color',[0.8500 0.3250 0.0980]);
 ylabel('\sigma (Modulus)');
 xlim([0 2.0]);
 legend('Amplitude', '\sigma (Modulus)');

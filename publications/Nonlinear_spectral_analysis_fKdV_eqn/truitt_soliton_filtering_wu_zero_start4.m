@@ -92,7 +92,7 @@ end
 % .mat file for above analysis: truitt_data/wu_zero_start/ist_analysis4.mat
 
 figure;
-imagesc(tz,xz_original,real(U));
+imagesc(tz,flip(xz_original),flip(real(U)));
 set(gcf,'units','inches','position',[0,0,9,4]);
 set(gca, 'FontName', 'Arial')
 colorbar();
@@ -145,7 +145,8 @@ hold on;
 yyaxis right;
 plot(k_ist(1,:), nine_digcnt(m{1}),'^');
 hold on;
-yline(3,'--','LineWidth',2);
+yline(3,'--','LineWidth',2, ...
+      'Color',[0.8500 0.3250 0.0980]);
 ylabel('\sigma (Modulus)');
 xlim([0 2.0]);
 legend('Amplitude', '\sigma (Modulus)');
