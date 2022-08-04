@@ -25,3 +25,21 @@ Thus far, this package has only been used on an Intel Macbook. In the future, mo
 In root directory run `make`. This will compile the necesary code and copy the entire library to `KVIST/lib`. In MATLAB, just add `KVIST/lib/` to your path and you're good to go! `make clean` will clean up the `src` folder. You make need to adjust the BLAS link and include facts in MATLAB coder. This can be done by editing `src/matlab/compile_mex.m`. Future versions of this will improve upon this.
 
 The scripts in `publications` will search for a `lib` directory in order to run. 
+
+
+## Acknowledgment
+This material is based upon work supported by the U.S. Department of
+Energy, Office of Science, Office of Advanced Scientific Computing Research, Department of
+Energy Computational Science Graduate Fellowship under Award Number(s) DE-SC0021110.
+
+## Disclaimer
+This report was prepared as an account of work sponsored by an agency of the
+United States Government. Neither the United States Government nor any agency thereof, nor
+any of their employees, makes any warranty, express or implied, or assumes any legal liability
+or responsibility for the accuracy, completeness, or usefulness of any information, apparatus,
+product, or process disclosed, or represents that its use would not infringe privately owned
+rights. Reference herein to any specific commercial product, process, or service by trade name,
+trademark, manufacturer, or otherwise does not necessarily constitute or imply its
+endorsement, recommendation, or favoring by the United States Government or any agency
+thereof. The views and opinions of authors expressed herein do not necessarily state or reflect
+those of the United States Government or any agency thereof.
