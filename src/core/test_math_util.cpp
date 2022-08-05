@@ -10,9 +10,10 @@ int main() {
     using std::chrono::milliseconds;
 
     auto t1 = high_resolution_clock::now();
-    inlvector<double> v =  allocate_linspace(0.0, 9.0, 1000);
+    std::vector<double> v =  allocate_linspace(0.0, 9.0, 1000);
     auto t2 = high_resolution_clock::now();
     std::cout << "v (allocate):  ";
+    std::cout << std::endl << "v[4] = " << v[4] << std::endl;
     // std::cout << "length = " << v.size();
     // for(auto a: v)
     //     std::cout << a << " ";
