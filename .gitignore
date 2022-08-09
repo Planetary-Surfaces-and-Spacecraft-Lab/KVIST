@@ -5,3 +5,5 @@ lib/
 *.png
 *.jpg
 *.o
+*.asv
+*.mexmaci64
