@@ -2,6 +2,7 @@
 #include "mexAdapter.hpp"
 #include "interval_search.hpp"
 
+using namespace interval_search;
 using namespace matlab::data;
 using matlab::mex::ArgumentList;
 
@@ -23,7 +24,7 @@ public:
         double Emax = inputs[3][0];
         double tolX = inputs[4][0];
         
-        IntervalSearchResult res = interval_search(Emin, Emax, f, tolX);
+        IntervalSearchResult res = interval_search::interval_search(Emin, Emax, f, tolX);
         
         outputs[0] = factory.createScalar<double>(res.x);
         outputs[1] = factory.createScalar<double>(res.feval);

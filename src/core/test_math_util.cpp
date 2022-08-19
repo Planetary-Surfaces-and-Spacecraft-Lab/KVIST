@@ -1,7 +1,7 @@
 #include <iostream>
 #include <chrono>
 #include <thread>
-#include "math_util.h"
+#include "math_util.hpp"
 
 int main() {
     using std::chrono::high_resolution_clock;

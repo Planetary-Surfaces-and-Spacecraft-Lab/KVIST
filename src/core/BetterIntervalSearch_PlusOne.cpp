@@ -3,6 +3,7 @@
 #include "interval_search.hpp"
 #include <iostream>
 
+using namespace interval_search;
 using namespace matlab::data;
 using matlab::mex::ArgumentList;
 
@@ -39,7 +40,7 @@ public:
         //std::cout << "tolX = "<<tolX<<std::endl;
         
         //std::cout << "Calling interval search\n";
-        IntervalSearchResult res = interval_search(Emin, Emax, f, tolX);
+        IntervalSearchResult res = interval_search::interval_search(Emin, Emax, f, tolX);
         //std::cout << "Finished interval search with " <<res.numiter<<" iterations\n";
         
         outputs[0] = factory.createScalar<double>(res.x);

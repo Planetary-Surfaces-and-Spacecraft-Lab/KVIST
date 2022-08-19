@@ -1,5 +1,6 @@
 #include "interval_search.hpp"
 using namespace std;
+using namespace interval_search;
 
 // f(x) = x^2
 class Squared : public ZeroFunction
@@ -12,7 +13,7 @@ public:
 
 // Given an interval where sign(f(a)) /= sign(f(b)), search for where f(x)=0
 // Assumes a<b
-IntervalSearchResult interval_search(double a, double b, ZeroFunction& f, double tolX) {
+IntervalSearchResult interval_search::interval_search(double a, double b, ZeroFunction& f, double tolX) {
     double leftbnd = a;
     double rightbnd = b;
     double middle;

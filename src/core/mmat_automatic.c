@@ -4,7 +4,7 @@
 #include <cblas.h>
 #include <string.h>
 #include "mmat_automatic.h"
-#include "mex.h"
+// #include "mex.h" 
 
 // Flip this to 1 to print extra information
 #define DEBUG 0

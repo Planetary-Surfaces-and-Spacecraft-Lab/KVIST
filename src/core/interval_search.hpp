@@ -1,10 +1,14 @@
+#ifndef INTERVAL_SEARCH_HPP
+#define INTERVAL_SEARCH_HPP
 #include <stdlib.h>
 #include <iostream>
-#include "mmat_automatic.h"
+extern "C" {
+    #include "mmat_automatic.h"
+}
 
 #define DEBUG 0
 
-
+namespace interval_search {
 // This would be best as a template to allow f(x) other than double |-> double
 class ZeroFunction {
 public:
@@ -18,13 +22,13 @@ public:
     }
 };
 
-struct IntervalSearchResult
+typedef struct IntervalSearchResult
 {
     double x;
     double feval;
     double delx;
     int numiter;
-};
+}IntervalSearchResult;
 
 
 // (tr M / 2) + 1
@@ -164,7 +168,55 @@ public:
     
 };
 
+// M_{11}
+class M11 : public ZeroFunction
+{
+private:
+    double* xz;
+    double* u;
+    int n;
+public:
+
+    // Copy data into instance of ZeroFunction
+    M11(const double* xz_arg, const double* u_arg, int numel) {
+        xz = (double *) malloc(numel*sizeof(double));
+        u = (double *) malloc(numel*sizeof(double));
+        for(int i=0; i<numel;i++) {
+            xz[i] = xz_arg[i];
+            u[i] = u_arg[i];
+        }
+
+        n = numel;
+    }
+    ~M11() {
+        free((void *)xz);
+        free((void *)u);
+    }
+    double f(double E) {
+        double* M = (double*) malloc(4*sizeof(double));
+        double* delx = (double*) malloc(1*sizeof(double));
+        mmat_automatic(E,xz,u,n,M, delx);
+        double M11 = M[0];
+        free(M);
+        free(delx);
+        return M11;
+    }
+
+    double g(double E) {
+        double* M = (double*) malloc(4*sizeof(double));
+        double* delx = (double*) malloc(1*sizeof(double));
+        mmat_automatic(E,xz,u,n,M, delx);
+        double M11 = M[0];
+        free(M);
+        free(delx);
+        return M11;;
+    }
+    
+};
 
 
 IntervalSearchResult interval_search(double a, double b, ZeroFunction& f, double tolX);
 
+};
+
+#endif /* !INTERVAL_SEARCH_HPP */
