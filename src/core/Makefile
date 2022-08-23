@@ -1,4 +1,4 @@
-CPPFLAGS=-O3 -std=c++17
+CPPFLAGS=-O3 -std=c++17 -Xclang -fopenmp -lomp
 CFLAGS=-O3
 BLAS_INC=-I/usr/local/opt/openblas/include
 BLAS_LINK=-lcblas -L/usr/local/opt/openblas/lib

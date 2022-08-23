@@ -10,9 +10,9 @@ int main() {
     auto xz = allocate_linspace(0.0, 10.0, 1001);
     auto u  = allocate_linspace(1.0, 1.0, xz.size());
 
-    double Emin = 0.0;
-    double Emax = 100.0;
-    int numE = 11;
+    double Emin = -1.0;
+    double Emax = 5.0;
+    int numE = 1001;
 
     high_resolution_clock::time_point t1 = high_resolution_clock::now();
     auto istspc = ist_spectra(Emin, Emax, numE, xz, u);
