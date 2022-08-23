@@ -14,7 +14,6 @@ Computes the Periodic Inverse Scattering Transform of the Kortweg-De Vries equat
 ### Datasets
 Datasets used in published figures are accessable through Zenodo. In order for the scripts in `publications` to run, please download the associated Zenodo dataset.
 
-
 ## Installation
 Thus far, this package has only been used on an Intel Macbook. In the future, more bindings and platforms are expected to be supported.
 
@@ -31,7 +30,7 @@ The scripts in `publications` will search for a `lib` directory in order to run.
 
 ## Citation
 If you use this software, please cite the following doi or use the Github citation prompt.
-doi: 10.5281/zenodo.7017043
+- [10.5281/zenodo.7017043](https://doi.org/10.5281/zenodo.7017042)
 
 ## Acknowledgment
 This material is based upon work supported by the U.S. Department of
