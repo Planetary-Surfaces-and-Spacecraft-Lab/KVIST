@@ -11,6 +11,9 @@ Computes the Periodic Inverse Scattering Transform of the Kortweg-De Vries equat
 - `publications` directly reproduces figures associated with this code
 - `dev_scripts` sample MATLAB scripts to call subroutines in `src`
 
+### Datasets
+Datasets used in published figures are accessable through Zenodo. In order for the scripts in `publications` to run, please download the associated Zenodo dataset.
+
 
 ## Installation
 Thus far, this package has only been used on an Intel Macbook. In the future, more bindings and platforms are expected to be supported.
