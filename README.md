@@ -29,6 +29,9 @@ In root directory run `make`. This will compile the necesary code and copy the e
 
 The scripts in `publications` will search for a `lib` directory in order to run. 
 
+## Citation
+If you use this software, please cite the following doi or use the Github citation prompt.
+doi: 10.5281/zenodo.7017043
 
 ## Acknowledgment
 This material is based upon work supported by the U.S. Department of
